@@ -1,0 +1,10 @@
+FileListing,http://filelisting.com/result?f=0&d=1&q=,true
+Google,http://www.google.com/search?q=intext:btih+,false
+TorrentSeeker,https://torrentseeker.com/search.php?q=,true
+BTDB,http://btdb.in/q/,false
+Torrent Project,https://torrentproject.se/?t=,false
+Torrentz2,https://torrentz2.eu/search?f=,false
+TPB,https://thepiratebay.org/search/,false
+Rarbg,https://rarbg.to/torrents.php?search=,false
+ExtraTorrent,https://extratorrent.cc/search/?new=1&x=0&y=0&search=,false
+Rutracker,https://rutracker.org/forum/search_cse.php?cx=014434608714260776013%3Aggcq1kovlga&cof=FORID%3A9&ie=utf-8&sa=%D0%9F%D0%BE%D0%B8%D1%81%D0%BA+%D0%B2+Google&q=,true

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="spinner_items">
+        <item>Web</item>
+        <item>Images</item>
+        <item>Videos</item>
+        <!--<item>Music</item>-->
+        <item>Torrents</item>
+        <item>Books and Articles</item>
+    </string-array>
+</resources>

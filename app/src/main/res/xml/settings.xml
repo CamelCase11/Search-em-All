@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <SwitchPreference
+        android:defaultValue="true"
+        android:key="ads_status"
+        android:summary="Support me by keeping Ads on."
+        android:title="Ads" />
+
+    <ListPreference android:title="@string/about" />
+
+</PreferenceScreen>
