@@ -6,7 +6,7 @@ android {
     compileSdkVersion 25
     buildToolsVersion "25.0.2"
     defaultConfig {
-        applicationId 'CamelCase.searchemall'
+        applicationId 'camelcase.searchemall'
         minSdkVersion 19
         targetSdkVersion 25
         versionCode 1
