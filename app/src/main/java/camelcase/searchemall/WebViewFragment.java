@@ -7,7 +7,6 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,16 +28,6 @@ public class WebViewFragment extends Fragment implements Serializable {
     private FloatingActionButton fab;
     private WebView mWebView;
     private SwipeRefreshLayout mSwipeRefreshLayout;
-    private View.OnClickListener myListener = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            if (mWebView.canGoBack()) {
-                mWebView.goBack();
-            } else {
-                Toast.makeText(getContext(), "Can not go back", Toast.LENGTH_SHORT).show();
-            }
-        }
-    };
 
     public WebViewFragment() {
     }
@@ -46,7 +35,6 @@ public class WebViewFragment extends Fragment implements Serializable {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        Log.d(TAG, "onAttach: called from webview fragment");
         webviewFragmentListener = (WebviewFragmentListener) context;
     }
 
@@ -91,6 +79,7 @@ public class WebViewFragment extends Fragment implements Serializable {
                 else webviewFragmentListener.getCurrentUrl("");
             }
         });
+        WebView.setWebContentsDebuggingEnabled(false);
         return v;
     }
 
@@ -102,6 +91,17 @@ public class WebViewFragment extends Fragment implements Serializable {
     }
 
     public interface WebviewFragmentListener {
-        public void getCurrentUrl(String url);
+        void getCurrentUrl(String url);
     }
+
+    private View.OnClickListener myListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            if (mWebView.canGoBack()) {
+                mWebView.goBack();
+            } else {
+                Toast.makeText(getContext(), "Can not go back", Toast.LENGTH_SHORT).show();
+            }
+        }
+    };
 }

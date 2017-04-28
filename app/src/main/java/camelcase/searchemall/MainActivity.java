@@ -1,10 +1,8 @@
 package camelcase.searchemall;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -14,12 +12,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
-import com.google.android.gms.ads.AdView;
-
 import static android.content.Intent.ACTION_VIEW;
-
-// TODO make settings_layout screen to disable ads
-// TODO publish on store and github
 
 public class MainActivity extends AppCompatActivity implements
         MainFragment.MainFragmentListener,
@@ -29,10 +22,8 @@ public class MainActivity extends AppCompatActivity implements
     private final String TAG = MainActivity.class.getSimpleName();
     private Toolbar mToolbar;
     private String mCurrentUrl = "";
-    private AdView mAdView;
     private MainFragment mainFragment;
     private ViewPagerFragment viewPagerFragment;
-    private SharedPreferences preferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,9 +35,6 @@ public class MainActivity extends AppCompatActivity implements
 
         initUiComponents();
         initMainFragment();
-
-        preferences = PreferenceManager.getDefaultSharedPreferences(this);
-
     }
 
     @Override
@@ -127,24 +115,6 @@ public class MainActivity extends AppCompatActivity implements
     @Override
     public void getCurrentUrl(String url) {
         mCurrentUrl = url;
-    }
-
-    @Override
-    protected void onResume() {
-        if (mAdView != null) mAdView.resume();
-        super.onResume();
-    }
-
-    @Override
-    protected void onPause() {
-        if (mAdView != null) mAdView.pause();
-        super.onPause();
-    }
-
-    @Override
-    protected void onDestroy() {
-        if (mAdView != null) mAdView.destroy();
-        super.onDestroy();
     }
 
 }

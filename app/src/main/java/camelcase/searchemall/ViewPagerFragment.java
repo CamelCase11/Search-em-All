@@ -50,11 +50,7 @@ public class ViewPagerFragment extends Fragment implements Serializable {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.viewpager_fragment, container, false);
-        try {
-            mProperties = readAssets(getAssetName());
-        } catch (IOException e) {
-            Log.e(TAG, "onCreateView: exception occured while getting assets", e);
-        }
+        mProperties = readAssets(getAssetName());
         mArrayListSize = mProperties.size();
         initViewPager(view);
         return view;
@@ -89,14 +85,24 @@ public class ViewPagerFragment extends Fragment implements Serializable {
     }
 
     // read assets from file
-    private ArrayList<WebPageProperties> readAssets(String asset) throws IOException {
-        InputStream is = mContext.getAssets().open(asset);
+    private ArrayList<WebPageProperties> readAssets(String asset) {
+        InputStream is = null;
+        try {
+            is = mContext.getAssets().open(asset);
+        } catch (IOException e) {
+            Log.e(TAG, "readAssets: Error reading assets",e );
+        }
         ArrayList<WebPageProperties> result = new ArrayList<>();
         String url;
+        assert is != null;
         BufferedReader reader = new BufferedReader(new InputStreamReader(is));
-        while ((url = reader.readLine()) != null) {
-            String[] info = url.split(",");
-            result.add(new WebPageProperties(info[0], info[1], Boolean.parseBoolean(info[2])));
+        try {
+            while ((url = reader.readLine()) != null) {
+                String[] info = url.split(",");
+                result.add(new WebPageProperties(info[0], info[1], Boolean.parseBoolean(info[2])));
+            }
+        } catch (IOException e) {
+            Log.e(TAG, "readAssets: Error reading Line",e );
         }
         return result;
     }
@@ -114,7 +120,6 @@ public class ViewPagerFragment extends Fragment implements Serializable {
     @Override
     public void onDetach() {
         super.onDetach();
-        Log.d(TAG, "onDetach: called");
         viewPagerFragmentListener.onDetachCalled();
     }
 
