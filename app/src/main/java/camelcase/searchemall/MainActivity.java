@@ -22,16 +22,11 @@ public class MainActivity extends AppCompatActivity implements
     private final String TAG = MainActivity.class.getSimpleName();
     private Toolbar mToolbar;
     private String mCurrentUrl = "";
-    private MainFragment mainFragment;
-    private ViewPagerFragment viewPagerFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        mainFragment = new MainFragment();
-        viewPagerFragment = new ViewPagerFragment();
 
         initUiComponents();
         initMainFragment();
@@ -65,6 +60,7 @@ public class MainActivity extends AppCompatActivity implements
     @Override
     public void getSearchInfo(String query, String scope) {
         if (!query.equals("")) {
+            ViewPagerFragment viewPagerFragment = new ViewPagerFragment();
             viewPagerFragment.setSearchQueryAndScope(query, scope);
             Menu menu = mToolbar.getMenu();
             menu.clear();
@@ -79,7 +75,7 @@ public class MainActivity extends AppCompatActivity implements
     }
 
     private boolean initMainFragment() {
-        manageFragment(mainFragment, false);
+        manageFragment(new MainFragment(), false);
         return true;
     }
 
