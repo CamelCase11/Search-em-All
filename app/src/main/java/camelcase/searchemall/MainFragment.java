@@ -4,22 +4,38 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 public class MainFragment extends Fragment implements AdapterView.OnItemSelectedListener {
 
+    private final String TAG = MainFragment.class.getSimpleName();
     MainFragmentListener mainFragmentListener;
     private EditText mSearchBox;
-    private Spinner mSearchScope;
+    private Spinner mSearchScopeSpinner;
     private ImageButton mSearchButton;
     private String mStringSearchScope;
+    private String mSearchQuery;
+    private TextView.OnEditorActionListener myOnEditListener = new TextView.OnEditorActionListener() {
+        @Override
+        public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+            if (actionId == EditorInfo.IME_NULL && event.getAction() == KeyEvent.ACTION_DOWN) {
+                mSearchQuery = mSearchBox.getText().toString();
+                String searchScope = mStringSearchScope;
+                mainFragmentListener.getSearchInfo(mSearchQuery, searchScope);
+                return true;
+            } else return false;
+        }
+    };
 
     public MainFragment() {
     }
@@ -36,21 +52,18 @@ public class MainFragment extends Fragment implements AdapterView.OnItemSelected
 
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater,
-                             @Nullable ViewGroup container,
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.main_fragment, container, false);
         initViews(view);
         initSpinner();
         listenButtonEvent();
+        mSearchBox.setOnEditorActionListener(myOnEditListener);
         return view;
     }
 
     @Override
-    public void onItemSelected(AdapterView<?> parent,
-                               View view,
-                               int position,
-                               long id) {
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         mStringSearchScope = parent.getItemAtPosition(position).toString();
     }
 
@@ -67,8 +80,8 @@ public class MainFragment extends Fragment implements AdapterView.OnItemSelected
                 android.R.layout.simple_spinner_item);
 
         mSpinnerAdapter.setDropDownViewResource(android.R.layout.simple_list_item_1);
-        mSearchScope.setAdapter(mSpinnerAdapter);
-        mSearchScope.setOnItemSelectedListener(this);
+        mSearchScopeSpinner.setAdapter(mSpinnerAdapter);
+        mSearchScopeSpinner.setOnItemSelectedListener(this);
         return true;
     }
 
@@ -76,9 +89,9 @@ public class MainFragment extends Fragment implements AdapterView.OnItemSelected
         mSearchButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String searchQuery = mSearchBox.getText().toString();
+                mSearchQuery = mSearchBox.getText().toString();
                 String searchScope = mStringSearchScope;
-                mainFragmentListener.getSearchInfo(searchQuery, searchScope);
+                mainFragmentListener.getSearchInfo(mSearchQuery, searchScope);
             }
         });
         return true;
@@ -86,7 +99,7 @@ public class MainFragment extends Fragment implements AdapterView.OnItemSelected
 
     private void initViews(View view) {
         mSearchBox = getEditText(view, R.id.main_fragment_search_box);
-        mSearchScope = getSpinner(view, R.id.main_fragment_search_scope);
+        mSearchScopeSpinner = getSpinner(view, R.id.main_fragment_search_scope);
         mSearchButton = getImageButton(view, R.id.main_fragment_search_button);
     }
 
@@ -105,5 +118,4 @@ public class MainFragment extends Fragment implements AdapterView.OnItemSelected
     public interface MainFragmentListener {
         void getSearchInfo(String query, String Scope);
     }
-
 }

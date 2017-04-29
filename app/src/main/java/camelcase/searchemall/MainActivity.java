@@ -49,7 +49,7 @@ public class MainActivity extends AppCompatActivity implements
                     Intent i = new Intent(ACTION_VIEW, Uri.parse(mCurrentUrl));
                     this.startActivity(i);
                 } else
-                    Toast.makeText(this, "Unable to open url " + mCurrentUrl, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, "Please open a link first " + mCurrentUrl, Toast.LENGTH_SHORT).show();
                 break;
 
         }
@@ -59,6 +59,10 @@ public class MainActivity extends AppCompatActivity implements
     // method to get search info from main fragment
     @Override
     public void getSearchInfo(String query, String scope) {
+        performSearch(query, scope);
+    }
+
+    private void performSearch(String query, String scope) {
         if (!query.equals("")) {
             ViewPagerFragment viewPagerFragment = new ViewPagerFragment();
             viewPagerFragment.setSearchQueryAndScope(query, scope);
@@ -112,5 +116,4 @@ public class MainActivity extends AppCompatActivity implements
     public void getCurrentUrl(String url) {
         mCurrentUrl = url;
     }
-
 }
