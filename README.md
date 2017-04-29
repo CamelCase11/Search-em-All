@@ -11,7 +11,7 @@ You can search within these scopes.
 # ToDo
 
 * Organize the code
-* Press enter key to search
+* ~Press enter key to search~
 * Design app according to material design guidelines
 * Parse urls from any server and remove from assets to avoid takedowns.
 
