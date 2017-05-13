@@ -7,19 +7,9 @@
     android:layout_height="match_parent"
     tools:context="camelcase.searchemall.MainActivity">
 
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/actionBar"
-        android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:background="@color/colorPrimary"
-        android:elevation="1dp"
-        android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
-        app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
-
     <FrameLayout
         android:id="@+id/fragment_container"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@id/actionBar" />
+        android:layout_height="match_parent"/>
 
 </RelativeLayout>

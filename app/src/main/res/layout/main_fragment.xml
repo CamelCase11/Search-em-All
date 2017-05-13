@@ -3,7 +3,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorPrimary"
     android:gravity="center_horizontal">
 
     <TextView
@@ -14,45 +13,35 @@
         android:layout_margin="24dp"
         android:gravity="center"
         android:lineSpacingExtra="5dp"
-        android:text="Keep\nCalm\nAnd\nSearch\'em All"
+        android:text="@string/keep_calm_nand_nsearch_em_all"
         android:textAllCaps="true"
-        android:textColor="@android:color/black"
+        android:textColor="@color/primary_text"
         android:textSize="20sp"
         android:textStyle="bold" />
 
-    <android.support.v7.widget.CardView
-        android:id="@+id/cardview_search_box"
+    <EditText
+        android:id="@+id/main_fragment_search_box"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:layout_below="@id/main_fragment_title"
+        android:hint="@string/search"
+        android:lines="1"
         android:layout_margin="16dp"
-        app:cardCornerRadius="4dp"
-        app:cardElevation="0dp">
-
-        <EditText
-            android:id="@+id/main_fragment_search_box"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="#0000"
-            android:hint="@string/search"
-            android:imeOptions="actionSearch"
-            android:inputType="text"
-            android:lines="1"
-            android:maxLines="1"
-            android:paddingEnd="16dp"
-            android:paddingStart="16dp" />
-
-    </android.support.v7.widget.CardView>
+        android:maxLines="1"
+        android:inputType="text"
+        android:imeOptions="actionGo"
+        android:paddingEnd="16dp"
+        android:paddingStart="16dp" />
 
     <android.support.v7.widget.CardView
         android:id="@+id/cardview_search_options"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:layout_below="@id/cardview_search_box"
+        android:layout_below="@id/main_fragment_search_box"
         android:layout_marginEnd="16dp"
         android:layout_marginStart="16dp"
         app:cardCornerRadius="4dp"
-        app:cardElevation="0dp">
+        app:cardElevation="4dp">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -74,9 +63,7 @@
                 android:contentDescription="@string/search_button"
                 android:padding="24dp"
                 android:src="@drawable/ic_search" />
-
         </LinearLayout>
-
     </android.support.v7.widget.CardView>
 
 </RelativeLayout>

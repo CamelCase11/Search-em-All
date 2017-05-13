@@ -1,7 +1,9 @@
 package camelcase.searchemall;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
@@ -17,6 +19,8 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import java.io.Serializable;
+
+import static android.content.Intent.ACTION_VIEW;
 
 public class WebViewFragment extends Fragment implements Serializable {
 
@@ -75,7 +79,18 @@ public class WebViewFragment extends Fragment implements Serializable {
                 super.onPageFinished(view, url);
                 progressBar.setVisibility(View.GONE);
                 mSwipeRefreshLayout.setRefreshing(false);
-                if (mWebView.canGoBack()) webviewFragmentListener.getCurrentUrl(url);
+                if (mWebView.canGoBack()){
+                    if (url.startsWith("magnet:")
+                            || url.startsWith("market://")
+                            || url.startsWith("https://play.google.com")) {
+
+                        Intent i = new Intent(ACTION_VIEW, Uri.parse(url));
+                        getActivity().startActivity(i);
+
+                    } else {
+                        webviewFragmentListener.getCurrentUrl(url);
+                    }
+                }
                 else webviewFragmentListener.getCurrentUrl("");
             }
         });

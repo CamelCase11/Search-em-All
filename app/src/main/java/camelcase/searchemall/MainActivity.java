@@ -10,6 +10,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.WindowManager;
 import android.widget.Toast;
 
 import static android.content.Intent.ACTION_VIEW;
@@ -20,20 +21,20 @@ public class MainActivity extends AppCompatActivity implements
         WebViewFragment.WebviewFragmentListener {
 
     private final String TAG = MainActivity.class.getSimpleName();
-    private Toolbar mToolbar;
     private String mCurrentUrl = "";
+    private Menu mMenu;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        initUiComponents();
         initMainFragment();
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
+        mMenu = menu;
         return true;
     }
 
@@ -51,7 +52,6 @@ public class MainActivity extends AppCompatActivity implements
                 } else
                     Toast.makeText(this, "Please open a link first " + mCurrentUrl, Toast.LENGTH_SHORT).show();
                 break;
-
         }
         return true;
     }
@@ -66,16 +66,10 @@ public class MainActivity extends AppCompatActivity implements
         if (!query.equals("")) {
             ViewPagerFragment viewPagerFragment = new ViewPagerFragment();
             viewPagerFragment.setSearchQueryAndScope(query, scope);
-            Menu menu = mToolbar.getMenu();
-            menu.clear();
-            mToolbar.inflateMenu(R.menu.webview_menu);
+            mMenu.clear();
+            getMenuInflater().inflate(R.menu.webview_menu,mMenu);
             manageFragment(viewPagerFragment, true);
         } else Toast.makeText(this, "please enter text", Toast.LENGTH_SHORT).show();
-    }
-
-    private void initUiComponents() {
-        mToolbar = (Toolbar) findViewById(R.id.actionBar);
-        setSupportActionBar(mToolbar);
     }
 
     private boolean initMainFragment() {
@@ -92,14 +86,9 @@ public class MainActivity extends AppCompatActivity implements
         return true;
     }
 
-    private void initMainFragmentMenu() {
-        Menu menu = mToolbar.getMenu();
-        menu.clear();
-    }
-
     @Override
     public void onDetachCalled() {
-        initMainFragmentMenu();
+        mMenu.clear();
     }
 
     @Override

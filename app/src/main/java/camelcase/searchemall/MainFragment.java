@@ -1,9 +1,14 @@
 package camelcase.searchemall;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.security.keystore.KeyInfo;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.text.Editable;
+import android.text.method.KeyListener;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,6 +20,7 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class MainFragment extends Fragment implements AdapterView.OnItemSelectedListener {
 
@@ -25,17 +31,29 @@ public class MainFragment extends Fragment implements AdapterView.OnItemSelected
     private ImageButton mSearchButton;
     private String mStringSearchScope;
     private String mSearchQuery;
-    private TextView.OnEditorActionListener myOnEditListener = new TextView.OnEditorActionListener() {
-        @Override
-        public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-            if (actionId == EditorInfo.IME_NULL && event.getAction() == KeyEvent.ACTION_DOWN) {
-                mSearchQuery = mSearchBox.getText().toString();
-                String searchScope = mStringSearchScope;
-                mainFragmentListener.getSearchInfo(mSearchQuery, searchScope);
-                return true;
-            } else return false;
-        }
-    };
+//    private TextView.OnEditorActionListener myOnEditListener = new TextView.OnEditorActionListener() {
+//        @Override
+//        public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+//            if (actionId == EditorInfo.IME_ACTION_GO && event.getAction() == KeyEvent.ACTION_DOWN) {
+//                mSearchQuery = mSearchBox.getText().toString();
+//                String searchScope = mStringSearchScope;
+//                mainFragmentListener.getSearchInfo(mSearchQuery, searchScope);
+//                return true;
+//            } else return false;
+//            if (actionId == EditorInfo.IME_ACTION_GO && event.getAction() == KeyEvent.ACTION_DOWN){
+//                Log.d(TAG, "onEditorAction: ACTION GO");
+//            } else if (actionId == EditorInfo.IME_NULL && event.getAction() == KeyEvent.ACTION_DOWN) {
+//                Log.d(TAG, "onEditorAction: action null");
+//            } else if (actionId == EditorInfo.IME_ACTION_DONE && event.getAction() == KeyEvent.ACTION_DOWN) {
+//                Log.d(TAG, "onEditorAction: action done");
+//            } else if (actionId == EditorInfo.IME_ACTION_NEXT && event.getAction() == KeyEvent.ACTION_DOWN) {
+//                Log.d(TAG, "onEditorAction: action next");
+//            } else {
+//                Log.d(TAG, "onEditorAction: Nothing");
+//            }
+//            return true;
+//        }
+//    };
 
     public MainFragment() {
     }
@@ -58,7 +76,18 @@ public class MainFragment extends Fragment implements AdapterView.OnItemSelected
         initViews(view);
         initSpinner();
         listenButtonEvent();
-        mSearchBox.setOnEditorActionListener(myOnEditListener);
+        mSearchBox.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if (keyCode == KeyEvent.KEYCODE_ENTER && event.getAction() == KeyEvent.ACTION_UP) {
+                mSearchQuery = mSearchBox.getText().toString();
+                String searchScope = mStringSearchScope;
+                mainFragmentListener.getSearchInfo(mSearchQuery, searchScope);
+                return true;
+            } else return false;
+            }
+        });
+
         return view;
     }
 

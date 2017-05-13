@@ -2,7 +2,7 @@ package camelcase.searchemall;
 
 import java.io.Serializable;
 
-public class WebPageProperties implements Serializable {
+public class WebPageProperties {
 
     private String mWebPageUrl;
     private boolean mIsJsEnable = false;
