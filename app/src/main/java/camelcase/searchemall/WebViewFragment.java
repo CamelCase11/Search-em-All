@@ -2,6 +2,8 @@ package camelcase.searchemall;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
@@ -32,6 +34,7 @@ public class WebViewFragment extends Fragment implements Serializable {
     private FloatingActionButton fab;
     private WebView mWebView;
     private SwipeRefreshLayout mSwipeRefreshLayout;
+    private PackageManager mPm;
 
     public WebViewFragment() {
     }
@@ -44,7 +47,7 @@ public class WebViewFragment extends Fragment implements Serializable {
 
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater,
+    public View onCreateView(final LayoutInflater inflater,
                              ViewGroup container,
                              Bundle savedInstanceState) {
 
@@ -66,6 +69,8 @@ public class WebViewFragment extends Fragment implements Serializable {
         WebSettings webSettings = mWebView.getSettings();
         webSettings.setJavaScriptEnabled(mJsEnable);
 
+        mPm = getActivity().getPackageManager();
+
         mWebView.loadUrl(mUrl + mSearchQuery);
         mWebView.setWebViewClient(new WebViewClient() {
             @Override
@@ -86,7 +91,13 @@ public class WebViewFragment extends Fragment implements Serializable {
                             || url.endsWith(".torrent")) {
 
                         Intent i = new Intent(ACTION_VIEW, Uri.parse(url));
-                        getActivity().startActivity(i);
+                        ResolveInfo info = mPm.resolveActivity(i, PackageManager.MATCH_DEFAULT_ONLY);
+                        if (info != null) {
+                            getActivity().startActivity(i);
+                        } else {
+                            Toast.makeText(getContext(), "No torrent client found, Please install one.", Toast.LENGTH_SHORT).show();
+                            getActivity().startActivity(new Intent(ACTION_VIEW, Uri.parse("market://details?id=org.proninyaroslav.libretorrent")));
+                        }
 
                     } else {
                         webviewFragmentListener.getCurrentUrl(url);
