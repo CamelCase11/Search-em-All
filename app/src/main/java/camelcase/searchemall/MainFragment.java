@@ -5,7 +5,6 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -118,7 +117,6 @@ public class MainFragment extends Fragment implements AdapterView.OnItemSelected
         mSearchButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                printAllUrls();
                 mSearchQuery = mSearchBox.getText().toString();
                 String searchScope = mStringSearchScope;
                 mainFragmentListener.getSearchInfo(mSearchQuery, searchScope);
@@ -149,17 +147,6 @@ public class MainFragment extends Fragment implements AdapterView.OnItemSelected
         void getSearchInfo(String query, String Scope);
     }
 
-    public void printAllUrls() {
-        Log.d(TAG, "printAllUrls: called");
-        for (String name : fileNames) {
-            Log.d(TAG, "printAllUrls: reading file " + name);
-            String Urls = mUtil.readFile(name);
-            String[] UrlList = Urls.split(";");
-            for (String s : UrlList) {
-                Log.d(TAG, "printAllUrls: " + s);
-            }
-        }
-    }
 
     private class UrlFetchTask extends AsyncTask<String, Void, Void> {
 
@@ -172,7 +159,6 @@ public class MainFragment extends Fragment implements AdapterView.OnItemSelected
         @Override
         protected Void doInBackground(String... params) {
             int count = params.length;
-            Log.d(TAG, "doInBackground: count is " + count);
             for (String param : params) {
                 inputStreams.add(mUtil.openUrl(param));
             }
