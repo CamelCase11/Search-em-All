@@ -9,8 +9,8 @@ android {
         applicationId 'camelcase.searchemall'
         minSdkVersion 19
         targetSdkVersion 25
-        versionCode 5
-        versionName "1.22"
+        versionCode 6
+        versionName "1.24"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
     }
