@@ -82,7 +82,8 @@ public class WebViewFragment extends Fragment implements Serializable {
                 if (mWebView.canGoBack()){
                     if (url.startsWith("magnet:")
                             || url.startsWith("market://")
-                            || url.startsWith("https://play.google.com")) {
+                            || url.startsWith("https://play.google.com")
+                            || url.endsWith(".torrent")) {
 
                         Intent i = new Intent(ACTION_VIEW, Uri.parse(url));
                         getActivity().startActivity(i);

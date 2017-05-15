@@ -3,8 +3,10 @@ package camelcase.searchemall;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
@@ -35,6 +37,7 @@ public class ViewPagerFragment extends Fragment implements Serializable {
     private WebPageProperties mCurrentPage;
     private WebViewFragment webViewFragment;
     private String mCurrentPageName;
+    private TabLayout mTabLayout;
 
     public ViewPagerFragment() {
     }
@@ -52,7 +55,9 @@ public class ViewPagerFragment extends Fragment implements Serializable {
         View view = inflater.inflate(R.layout.viewpager_fragment, container, false);
         mProperties = readAssets(getAssetName());
         mArrayListSize = mProperties.size();
+        mTabLayout = (TabLayout) view.findViewById(R.id.tab_layout);
         initViewPager(view);
+        mTabLayout.setupWithViewPager(mViewPager);
         return view;
     }
 
@@ -131,7 +136,7 @@ public class ViewPagerFragment extends Fragment implements Serializable {
         void onPageSelected();
     }
 
-    private class myViewPagerAdapter extends FragmentStatePagerAdapter implements Serializable {
+    private class myViewPagerAdapter extends FragmentPagerAdapter {
 
         public myViewPagerAdapter(FragmentManager fm) {
             super(fm);
@@ -151,6 +156,11 @@ public class ViewPagerFragment extends Fragment implements Serializable {
         @Override
         public int getCount() {
             return mArrayListSize;
+        }
+
+        @Override
+        public CharSequence getPageTitle(int position) {
+            return mProperties.get(position).getPageName();
         }
     }
 }
