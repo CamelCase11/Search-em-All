@@ -56,9 +56,11 @@ public class WebViewFragment extends Fragment implements Serializable {
         final ProgressBar progressBar = (ProgressBar) v.findViewById(R.id.webview_fragment_progressbar);
 
         fab = (FloatingActionButton) v.findViewById(R.id.webview_fragment_goBack);
+
         fab.setOnClickListener(myListener);
 
         mSwipeRefreshLayout = (SwipeRefreshLayout) v.findViewById(R.id.swipeToRefresh);
+
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -67,11 +69,13 @@ public class WebViewFragment extends Fragment implements Serializable {
         });
 
         WebSettings webSettings = mWebView.getSettings();
+
         webSettings.setJavaScriptEnabled(mJsEnable);
 
         mPm = getActivity().getPackageManager();
 
         mWebView.loadUrl(mUrl + mSearchQuery);
+
         mWebView.setWebViewClient(new WebViewClient() {
             @Override
             public void onPageStarted(WebView view, String url, Bitmap favicon) {
@@ -85,12 +89,15 @@ public class WebViewFragment extends Fragment implements Serializable {
                 progressBar.setVisibility(View.GONE);
                 mSwipeRefreshLayout.setRefreshing(false);
                 if (mWebView.canGoBack()){
+
+                    // check if any app is available to perform action or not.
                     if (url.startsWith("magnet:")
                             || url.startsWith("market://")
                             || url.startsWith("https://play.google.com")
                             || url.endsWith(".torrent")) {
 
                         Intent i = new Intent(ACTION_VIEW, Uri.parse(url));
+
                         ResolveInfo info = mPm.resolveActivity(i, PackageManager.MATCH_DEFAULT_ONLY);
                         if (info != null) {
                             getActivity().startActivity(i);

@@ -6,19 +6,13 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.io.Serializable;
 import java.util.ArrayList;
 
@@ -38,6 +32,7 @@ public class ViewPagerFragment extends Fragment implements Serializable {
     private WebViewFragment webViewFragment;
     private String mCurrentPageName;
     private TabLayout mTabLayout;
+    private Util mUtil;
 
     public ViewPagerFragment() {
     }
@@ -53,6 +48,8 @@ public class ViewPagerFragment extends Fragment implements Serializable {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.viewpager_fragment, container, false);
+        // TODO : replace this with fetched urls
+        mUtil = new Util(getContext());
         mProperties = readAssets(getAssetName());
         mArrayListSize = mProperties.size();
         mTabLayout = (TabLayout) view.findViewById(R.id.tab_layout);
@@ -91,23 +88,12 @@ public class ViewPagerFragment extends Fragment implements Serializable {
 
     // read assets from file
     private ArrayList<WebPageProperties> readAssets(String asset) {
-        InputStream is = null;
-        try {
-            is = mContext.getAssets().open(asset);
-        } catch (IOException e) {
-            Log.e(TAG, "readAssets: Error reading assets",e );
-        }
         ArrayList<WebPageProperties> result = new ArrayList<>();
-        String url;
-        assert is != null;
-        BufferedReader reader = new BufferedReader(new InputStreamReader(is));
-        try {
-            while ((url = reader.readLine()) != null) {
-                String[] info = url.split(",");
-                result.add(new WebPageProperties(info[0], info[1], Boolean.parseBoolean(info[2])));
-            }
-        } catch (IOException e) {
-            Log.e(TAG, "readAssets: Error reading Line",e );
+        String Urls = mUtil.readFile(asset);
+        String[] UrlList = Urls.split(";");
+        for (String s : UrlList) {
+            String[] info = s.split(",");
+            result.add(new WebPageProperties(info[0], info[1], Boolean.parseBoolean(info[2])));
         }
         return result;
     }
@@ -116,7 +102,6 @@ public class ViewPagerFragment extends Fragment implements Serializable {
         if (mSearchScope.equalsIgnoreCase("web")) return "search_web";
         else if (mSearchScope.equalsIgnoreCase("images")) return "search_images";
         else if (mSearchScope.equalsIgnoreCase("videos")) return "search_videos";
-//        else if (mSearchScope.equalsIgnoreCase("music")) return "search_music"; // currently not working
         else if (mSearchScope.equalsIgnoreCase("torrents")) return "search_torrents";
         else if (mSearchScope.equalsIgnoreCase("books and articles")) return "search_books";
         else return "serch_web";
@@ -136,7 +121,7 @@ public class ViewPagerFragment extends Fragment implements Serializable {
         void onPageSelected();
     }
 
-    private class myViewPagerAdapter extends FragmentPagerAdapter {
+    private class myViewPagerAdapter extends FragmentStatePagerAdapter {
 
         public myViewPagerAdapter(FragmentManager fm) {
             super(fm);

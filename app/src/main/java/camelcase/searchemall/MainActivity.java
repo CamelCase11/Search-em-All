@@ -7,10 +7,8 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.WindowManager;
 import android.widget.Toast;
 
 import static android.content.Intent.ACTION_VIEW;
@@ -29,7 +27,6 @@ public class MainActivity extends AppCompatActivity implements
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         initMainFragment();
-        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
     }
 
     @Override
@@ -42,7 +39,6 @@ public class MainActivity extends AppCompatActivity implements
     public boolean onOptionsItemSelected(MenuItem item) {
 
         switch (item.getItemId()) {
-
             case R.id.webview_menu_openInBrowser:
                 if (mCurrentUrl.startsWith("http://") || mCurrentUrl.startsWith("https://")
                         || mCurrentUrl.startsWith("market://") || mCurrentUrl.startsWith("magnet:?")) {
@@ -105,4 +101,6 @@ public class MainActivity extends AppCompatActivity implements
     public void getCurrentUrl(String url) {
         mCurrentUrl = url;
     }
+
+
 }

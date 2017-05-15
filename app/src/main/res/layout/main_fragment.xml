@@ -5,65 +5,95 @@
     android:layout_height="match_parent"
     android:gravity="center_horizontal">
 
-    <TextView
-        android:id="@+id/main_fragment_title"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_margin="24dp"
-        android:gravity="center"
-        android:lineSpacingExtra="5dp"
-        android:text="@string/keep_calm_nand_nsearch_em_all"
-        android:textAllCaps="true"
-        android:textColor="@color/primary_text"
-        android:textSize="20sp"
-        android:textStyle="bold" />
+        android:layout_height="match_parent"
+        android:layout_centerInParent="true"
+        android:id="@+id/fetching_message_layout">
 
-    <EditText
-        android:id="@+id/main_fragment_search_box"
+        <ProgressBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:id="@+id/progress_bar" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Fetching urls,Please wait..."
+            android:textStyle="italic"
+            android:layout_marginTop="16dp"
+            android:layout_below="@id/progress_bar"
+            android:layout_centerHorizontal="true" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:layout_below="@id/main_fragment_title"
-        android:hint="@string/search"
-        android:lines="1"
-        android:layout_margin="16dp"
-        android:maxLines="1"
-        android:inputType="text"
-        android:imeOptions="actionGo"
-        android:paddingEnd="16dp"
-        android:paddingStart="16dp" />
+        android:layout_height="match_parent"
+        android:id="@+id/main_fragment_components">
 
-    <android.support.v7.widget.CardView
-        android:id="@+id/cardview_search_options"
-        android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:layout_below="@id/main_fragment_search_box"
-        android:layout_marginEnd="16dp"
-        android:layout_marginStart="16dp"
-        app:cardCornerRadius="4dp"
-        app:cardElevation="4dp">
-
-        <LinearLayout
+        <TextView
+            android:id="@+id/main_fragment_title"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="horizontal">
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_margin="24dp"
+            android:gravity="center"
+            android:lineSpacingExtra="5dp"
+            android:text="@string/keep_calm_nand_nsearch_em_all"
+            android:textAllCaps="true"
+            android:textColor="@color/primary_text"
+            android:textSize="20sp"
+            android:textStyle="bold" />
 
-            <Spinner
-                android:id="@+id/main_fragment_search_scope"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:spinnerMode="dialog" />
+        <EditText
+            android:id="@+id/main_fragment_search_box"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:layout_below="@id/main_fragment_title"
+            android:hint="@string/search"
+            android:lines="1"
+            android:layout_margin="16dp"
+            android:maxLines="1"
+            android:inputType="text"
+            android:imeOptions="actionGo"
+            android:paddingEnd="16dp"
+            android:paddingStart="16dp" />
 
-            <ImageButton
-                android:id="@+id/main_fragment_search_button"
-                android:layout_width="wrap_content"
+        <android.support.v7.widget.CardView
+            android:id="@+id/cardview_search_options"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:layout_below="@id/main_fragment_search_box"
+            android:layout_marginEnd="16dp"
+            android:layout_marginStart="16dp"
+            app:cardCornerRadius="4dp"
+            app:cardElevation="4dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="#0000"
-                android:contentDescription="@string/search_button"
-                android:padding="24dp"
-                android:src="@drawable/ic_search" />
-        </LinearLayout>
-    </android.support.v7.widget.CardView>
+                android:orientation="horizontal">
+
+                <Spinner
+                    android:id="@+id/main_fragment_search_scope"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:spinnerMode="dialog" />
+
+                <ImageButton
+                    android:id="@+id/main_fragment_search_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:background="#0000"
+                    android:contentDescription="@string/search_button"
+                    android:padding="24dp"
+                    android:src="@drawable/ic_search" />
+            </LinearLayout>
+        </android.support.v7.widget.CardView>
+
+    </RelativeLayout>
 
 </RelativeLayout>
