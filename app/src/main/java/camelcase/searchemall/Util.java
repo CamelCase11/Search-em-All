@@ -1,6 +1,8 @@
 package camelcase.searchemall;
 
 import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -67,4 +69,10 @@ public class Util {
         }
     }
 
+    public boolean isNetworkOnline() {
+        ConnectivityManager cm =
+                (ConnectivityManager) mContext.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+        return (activeNetwork != null && activeNetwork.isConnectedOrConnecting());
+    }
 }

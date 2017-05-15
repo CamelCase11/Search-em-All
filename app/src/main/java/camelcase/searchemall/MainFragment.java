@@ -15,6 +15,7 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import java.io.File;
 import java.io.InputStream;
@@ -79,14 +80,18 @@ public class MainFragment extends Fragment implements AdapterView.OnItemSelected
             }
         });
 
-        new UrlFetchTask().execute(
-                rootUrl + fileNames[0],
-                rootUrl + fileNames[1],
-                rootUrl + fileNames[2],
-                rootUrl + fileNames[3],
-                rootUrl + fileNames[4]
-        );
-
+        if (mUtil.isNetworkOnline()) {
+            new UrlFetchTask().execute(
+                    rootUrl + fileNames[0],
+                    rootUrl + fileNames[1],
+                    rootUrl + fileNames[2],
+                    rootUrl + fileNames[3],
+                    rootUrl + fileNames[4]
+            );
+        } else {
+            mFetchMessageLayout.setVisibility(View.GONE);
+            Toast.makeText(getContext(), "Please Connect to the internet and restart the app.", Toast.LENGTH_SHORT).show();
+        }
         return view;
     }
 
@@ -171,9 +176,9 @@ public class MainFragment extends Fragment implements AdapterView.OnItemSelected
             for (String name : fileNames) {
                 File f = new File(getContext().getFilesDir(), name);
                 f.delete();
+                mFetchMessageLayout.setVisibility(View.VISIBLE);
+                mMainFramentComponentsLayout.setVisibility(View.GONE);
             }
-            mMainFramentComponentsLayout.setVisibility(View.GONE);
-            mFetchMessageLayout.setVisibility(View.VISIBLE);
         }
 
         @Override
@@ -189,5 +194,4 @@ public class MainFragment extends Fragment implements AdapterView.OnItemSelected
             mMainFramentComponentsLayout.setVisibility(View.VISIBLE);
         }
     }
-
 }
